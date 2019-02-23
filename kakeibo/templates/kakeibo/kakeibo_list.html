@@ -37,7 +37,7 @@
                   <td class="text-center" width="100">{{ item.category }}</td>
                   <td class="text-center" width="140">{{ item.money }}</td>
                   <td class="text-center" width="140">{{ item.memo }}</td>
-                  <td class="text-center" width="140">
+                  <td class="text-center" width="200">
                     <a class="btn btn-primary" href="{% url 'kakeibo:kakeibo_update' item.pk %}">修正する</a>
                     <a class="btn btn-danger" href="{% url 'kakeibo:kakeibo_delete' item.pk %}">削除する</a>
                   </td>
