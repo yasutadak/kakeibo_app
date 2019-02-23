@@ -23,3 +23,10 @@ class KakeiboCreateView(CreateView):
 def create_done(request):
   #登録処理が正常終了した場合に呼ばれるテンプレートを指定
   return render(request, 'kakeibo/create_done.html')
+class KakeiboUpdateView(UpdateView):
+  model = Kakeibo
+  form_class = KakeiboForm
+  success_url = reverse_lazy('kakeibo:update_done')
+
+def update_done(request):
+  return render(request, 'kakeibo/update_done.html')
