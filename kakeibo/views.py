@@ -37,3 +37,6 @@ class KakeiboDeleteView(DeleteView):
 
 def delete_done(request):
   return render(request, 'kakeibo/delete_done.html')
+
+def show_circle_grahp(request):
+  kakeibo_data = Kakeibo.objects.all()
