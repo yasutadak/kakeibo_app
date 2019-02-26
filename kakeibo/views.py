@@ -3,6 +3,8 @@ from . forms import KakeiboForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from .models import Category, Kakeibo
+from kakeibo.models import Kakeibo
+from django.db import models
 # Create your views here.
 
 class KakeiboListView(ListView):
@@ -38,7 +40,7 @@ class KakeiboDeleteView(DeleteView):
 def delete_done(request):
   return render(request, 'kakeibo/delete_done.html')
 
-def show_circle_grahp(request):
+def show_circle_graph(request):
   kakeibo_data = Kakeibo.objects.all()
 
   total = 0
