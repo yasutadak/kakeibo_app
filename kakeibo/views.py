@@ -40,3 +40,24 @@ def delete_done(request):
 
 def show_circle_grahp(request):
   kakeibo_data = Kakeibo.objects.all()
+
+  total = 0
+  for item in kakeibo_data:
+      total += item.money
+
+  category_list = []
+  category_data = Category.objects.all()
+  for item in category_data:
+    category_list.append(item.category_name)
+
+  category_dict = {}
+  for i,item in enumerate(category_list):
+    category_total = Kakeibo.objects.filter(category__category_name=category_list[i]).aggregate(sum=models.Sum('money'))['sum']
+    if category_total != None:
+      ratio = int((category_total / total) * 100)
+      category_dict[item] = ratio
+    else:
+      ratio = 0
+      category_dict[item] = ratio
+
+  return render(request, 'kakeibo/kakeibo_circle.html',{'category_dict':category_dict})
