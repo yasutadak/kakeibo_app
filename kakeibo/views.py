@@ -40,6 +40,7 @@ class KakeiboDeleteView(DeleteView):
 def delete_done(request):
   return render(request, 'kakeibo/delete_done.html')
 
+
 def show_circle_graph(request):
   kakeibo_data = Kakeibo.objects.all()
 
@@ -63,3 +64,19 @@ def show_circle_graph(request):
       category_dict[item] = ratio
 
   return render(request, 'kakeibo/kakeibo_circle.html',{'category_dict':category_dict})
+
+def show_line_graph(request):
+  kakeibo_data = Kakeibo.objects.all()
+
+  category_list = []
+  category_data = Category.objects.all().order_by('-category_name')
+  for item in category_data:
+    category_list.append(item.category_name)
+
+  date_list = []
+  for i in kakeibo_data:
+    date_list.append((i.date.strftime('%Y/%m/%d')[:7]))
+    date_list.sort()
+    x_label = list(set(date_list))
+    x_label.sort(reverse=False)
+
