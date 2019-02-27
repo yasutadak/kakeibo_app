@@ -5,6 +5,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from .models import Category, Kakeibo
 from kakeibo.models import Kakeibo
 from django.db import models
+from django.db.models import Sum
 # Create your views here.
 
 class KakeiboListView(ListView):
@@ -80,3 +81,19 @@ def show_line_graph(request):
     x_label = list(set(date_list))
     x_label.sort(reverse=False)
 
+  #月毎&カテゴリ毎の合計金額データセットの生成
+  monthly_sum_data = []
+  for i in range(len(x_label)):
+    year, month = x_label[i].split("/")
+    #該当月の月末日を抽出
+    month_range = calendar.monthrange(int(year), int(month))[1]
+    first_date = year + '-' + month + '-' + '01'
+    last_date = year + '-' + month + '-' + str(month_range)
+    #1か月分のデータを取得
+    total_of_month = Kakeibo.objects.filter(date__range=(first_date, last_date))
+    category_total = total_of_month.values('category').annotate(total_price=Sum('money'))
+
+    for j in range(len(category_total)):
+      money = category_total[j]['total_price']
+      category = Category.objects.get(pk=category_total[j]['category'])
+      monthly_sum_data.append([x_label[i], category.category_name,money])
