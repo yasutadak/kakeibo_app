@@ -123,7 +123,15 @@ def show_line_graph(request):
    組み合わせが一致する要素に対してmatrix_listの金額（０円）を
    monthly_sum_dataの金額で上書きする。
    """
-   for yyyy_mm,category,total in monthly_sum_data:
+  for yyyy_mm,category,total in monthly_sum_data:
     for i,data in enumerate(matrix_list):
       if data[0]==yyyy_mm and data[1]==category:
         matrix_list[i][2] = total
+
+  return render(request, 'kakeibo/kakeibo_line.html', {
+    'x_label': x_label,
+    'category_list': category_list,
+    'border_color': border_color,
+    'background_color': background_color,
+    'matrix_list': matrix_list,
+    })
